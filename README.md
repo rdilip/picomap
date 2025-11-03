@@ -1,8 +1,15 @@
 # picomap  
-`picomap` makes it easy to store and load datasets for machine learning. It is *tiny* (<200 LOC) but 
+`picomap` makes it easy to store and load datasets for machine learning. It is *tiny* (<200 LOC) but works well whenever I have a non-standard dataset and want efficient loading. 
 
 ---
 ## 🚀 Why picomap?
+
+<div align="center">
+  <img width="384" alt="picomap_vs_others" src="https://github.com/user-attachments/assets/ff1b9735-73d6-47a0-b106-51203e6effb4" />
+  <p style="font-size: 0.9em; color: #666; margin-top: 0.5em;">
+    <em>Actual photo of modern dataset solutions vs picomap.</em>
+  </p></div>
+
 
 ✅ **Fast** — writes arrays directly to disk in binary form  
 ✅ **Reproducible** — per-item hashing for content verification  
@@ -15,13 +22,6 @@
 ```bash
 pip install picomap
 ```
-
-Or, if you’re developing locally:
-
-```bash
-uv pip install -e .
-```
-
 ---
 
 ## 💡 Quick Example
@@ -51,7 +51,6 @@ toy.starts.npy   # index offsets
 toy.json         # metadata + hash
 ```
 
-
 ---
 
 ## ⚙️ API Summary
@@ -66,7 +65,8 @@ toy.json         # metadata + hash
 ---
 
 ## 🧰 Tips
-- All arrays must share the same dtype and trailing dimensions.  
+- All arrays must share the same dtype and trailing dimensions.
+- The first dimension can be ragged across the dataset (i.e., you can have sequences with shapes `(*, d1, d2, ..., dn)`).
 - Use `load(i, copy=True)` to materialize a slice if you need to modify it.  
 - You can safely share `.dat` files between processes (read-only).  
 ---
