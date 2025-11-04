@@ -43,11 +43,11 @@ for i in range(N):
   assert np.allclose(arrs[i], load(i))
 ```
 
-This writes three files.
+This writes three files and creates the directory `ds`
 ```
-toy.dat          # raw binary data
-toy.starts.npy   # index offsets
-toy.json         # metadata + hash
+ds/test.dat          # raw binary data
+ds/test.starts.npy   # index offsets
+ds/test.json         # metadata + hash
 ```
 
 ---
@@ -66,11 +66,4 @@ toy.json         # metadata + hash
 ## 🧰 Tips
 - All arrays must share the same dtype and trailing dimensions.
 - The first dimension can be ragged across the dataset (i.e., you can have sequences with shapes `(*, d1, d2, ..., dn)`).
-- Use `load(i, copy=True)` to materialize a slice if you need to modify it.  
-- You can safely share `.dat` files between processes (read-only).  
----
-
-## 🌟 TL;DR
-
-> 💾 **picomap** — simple, safe, hash-verified memory-mapped datasets.  
-> No giant databases or fancy formats. Just NumPy and peace of mind.
+- Use `load(i, copy=True)` to materialize a slice if you need to modify it. I generally copy the tensor to GPU in a training loop anyway.
