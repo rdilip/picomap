@@ -34,11 +34,11 @@ import picomap as pm
 lens = np.random.randint(16, 302, size=(101,))
 arrs = [np.random.randn(l, 4, 16, 3) for l in lens]
 
-pm.build_map(arrs, "toy")
-assert pm.verify_hash("toy")
+pm.build_map(arrs, "ds/test")
+assert pm.verify_hash("ds/test.dat")
 
 # Load individual items on demand
-load, N = pm.get_loader_fn("toy")
+load, N = pm.get_loader_fn("ds/test.dat")
 for i in range(N):
   assert np.allclose(arrs[i], load(i))
 ```
