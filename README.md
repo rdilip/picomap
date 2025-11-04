@@ -30,18 +30,17 @@ pip install picomap
 import numpy as np
 import picomap as pm
 
-# Build a dataset from a generator of arrays
-def gen():
-    for i in range(3):
-        yield np.random.randn(10 + i, 4).astype(np.float32)
+# Build a ragged dataset from a generator of arrays
+lens = np.random.randint(16, 302, size=(101,))
+arrs = [np.random.randn(l, 4, 16, 3) for l in lens]
 
-pm.build_map(gen(), "toy")
-pm.verify_hash("toy")   # ✅ ensures data integrity
+pm.build_map(arrs, "toy")
+assert pm.verify_hash("toy")
 
 # Load individual items on demand
 load, N = pm.get_loader_fn("toy")
-print(f"{N} items available")
-print(load(1).shape)  # → (11, 4)
+for i in range(N):
+  assert np.allclose(arrs[i], load(i))
 ```
 
 This writes three files.
